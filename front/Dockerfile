@@ -14,9 +14,15 @@ ENV HOME=/${WORKDIR} \
 
 WORKDIR ${HOME}
 
-# COPY package*.json ./
-# RUN yarn install
-# COPY . ./
-# RUN yarn run build
+
+COPY package*.json ./
+
+RUN apk update && \
+    apk upgrade && \
+    apk add --no-cache make gcc g++ python && \
+    yarn install
+
+COPY . ./
+RUN yarn run build
 
 EXPOSE ${CONTAINER_PORT}
